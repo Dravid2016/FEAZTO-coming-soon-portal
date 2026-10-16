@@ -1,0 +1,778 @@
+/* Layout Container */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-brand-yellow);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ==================================================
+   HERITAGE CHARIOT BACKGROUND (FORWARD ENTRANCE FROM LEFT TO RIGHT)
+   ================================================== */
+.chariot-bg-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1400px;
+}
+
+.chariot-moving-asset {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Noticeably bigger and centered vertically and horizontally */
+  height: clamp(820px, 115vh, 1600px);
+  width: auto;
+  opacity: 0.44;
+  filter: contrast(1.28) brightness(0.85) drop-shadow(0 28px 56px rgba(0, 0, 0, 0.3));
+  transform-origin: center center;
+  /* Stately motion gliding into the exact center and staying perfectly positioned */
+  animation: chariotCenterEnlarged 6.5s cubic-bezier(0.12, 0.82, 0.22, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* Moves forward and settles into exact center */
+@keyframes chariotCenterEnlarged {
+  0% {
+    transform: translate3d(-100%, -45%, -220px) scale(0.72);
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) scale(1);
+    opacity: 0.44;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chariot-moving-asset {
+    animation: none;
+    transform: translate3d(-50%, -50%, 0) scale(1);
+    opacity: 0.44;
+  }
+}
+
+@media (max-width: 768px) {
+  .chariot-moving-asset {
+    height: clamp(600px, 85vh, 900px);
+    opacity: 0.36;
+  }
+}
+
+/* ==================================================
+   REALISTIC FLOATING FOOD DOODLES (GENTLE DRIFT, NO SPIN)
+   ================================================== */
+.food-doodles-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.floating-food-doodle {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.36;
+  mix-blend-mode: multiply;
+  filter: contrast(1.15);
+  will-change: transform;
+  user-select: none;
+}
+
+/* Organic, gentle vertical floating animations (no rotation / no spin) */
+@keyframes doodleFloatUp {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -15px, 0);
+  }
+}
+
+@keyframes doodleFloatDown {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, 15px, 0);
+  }
+}
+
+/* Non-overlapping placements across the 6 outer zones around the hero stage */
+.doodle-pos-top-left {
+  top: 5%;
+  left: 3%;
+  width: clamp(160px, 15vw, 240px);
+  height: auto;
+  animation: doodleFloatUp 7.5s ease-in-out infinite;
+}
+
+.doodle-pos-top-right {
+  top: 6%;
+  right: 3%;
+  width: clamp(150px, 14vw, 220px);
+  height: auto;
+  animation: doodleFloatDown 8.2s ease-in-out infinite;
+  animation-delay: -2s;
+}
+
+.doodle-pos-mid-left {
+  top: 40%;
+  left: 2%;
+  width: clamp(140px, 13vw, 200px);
+  height: auto;
+  animation: doodleFloatDown 9s ease-in-out infinite;
+  animation-delay: -4s;
+}
+
+.doodle-pos-mid-right {
+  top: 38%;
+  right: 2%;
+  width: clamp(130px, 12vw, 180px);
+  height: auto;
+  animation: doodleFloatUp 8s ease-in-out infinite;
+  animation-delay: -3.5s;
+}
+
+.doodle-pos-bottom-left {
+  bottom: 6%;
+  left: 4%;
+  width: clamp(150px, 14vw, 210px);
+  height: auto;
+  animation: doodleFloatUp 9.5s ease-in-out infinite;
+  animation-delay: -1.5s;
+}
+
+.doodle-pos-bottom-right {
+  bottom: 7%;
+  right: 4%;
+  width: clamp(140px, 13vw, 200px);
+  height: auto;
+  animation: doodleFloatDown 8.7s ease-in-out infinite;
+  animation-delay: -5s;
+}
+
+@media (max-width: 900px) {
+  .floating-food-doodle {
+    opacity: 0.26;
+  }
+  .doodle-pos-top-left {
+    top: 3%;
+    left: -10px;
+    width: 120px;
+  }
+  .doodle-pos-top-right {
+    top: 4%;
+    right: -10px;
+    width: 110px;
+  }
+  .doodle-pos-mid-left {
+    top: 38%;
+    left: -15px;
+    width: 105px;
+  }
+  .doodle-pos-mid-right {
+    top: 36%;
+    right: -15px;
+    width: 100px;
+  }
+  .doodle-pos-bottom-left {
+    bottom: 4%;
+    left: -10px;
+    width: 115px;
+  }
+  .doodle-pos-bottom-right {
+    bottom: 5%;
+    right: -10px;
+    width: 110px;
+  }
+}
+
+.content-container {
+  width: 100%;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 5;
+}
+
+@media (min-width: 768px) {
+  .content-container {
+    padding: 0 40px;
+  }
+}
+
+/* ==================================================
+   A. TRANSPARENT MINIMAL HEADER
+   ================================================== */
+.site-header {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  border-bottom: none;
+  background: transparent;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+}
+
+.header-brand-placeholder {
+  height: 8px;
+}
+
+/* ==================================================
+   B. HERO SECTION - FEAZTO LOGO CENTERED ABOVE COMING SOON
+   ================================================== */
+.hero-section {
+  position: relative;
+  z-index: 10;
+  padding: 32px 0 88px 0;
+  text-align: center;
+}
+
+@media (min-width: 992px) {
+  .hero-section {
+    padding: 48px 0 112px 0;
+  }
+}
+
+.hero-content-box {
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Centered Logo in Hero - Transparent & Crisp */
+.hero-center-logo-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  transition: transform 0.3s ease;
+}
+
+.hero-center-logo-wrap:hover {
+  transform: scale(1.03);
+}
+
+.hero-center-logo-img {
+  height: 96px;
+  width: auto;
+  max-width: 90vw;
+  object-fit: contain;
+  /* Soft drop shadow directly on letterforms instead of rectangular card */
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.22));
+}
+
+.coming-soon-hero-stage {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.coming-soon-supertitle {
+  font-family: var(--font-sans);
+  font-size: clamp(12px, 1.5vw, 15px);
+  font-weight: 800;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(18, 18, 18, 0.75);
+  margin-bottom: 6px;
+}
+
+/* Grand COMING SOON headline: High contrast on Yellow background */
+.grand-coming-soon-title {
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-warp-text {
+  cursor: crosshair;
+  border-radius: 8px;
+}
+
+.hero-subhead {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.6vw, 2rem);
+  font-weight: 700;
+  color: var(--color-ink-black);
+  letter-spacing: -0.01em;
+  margin-top: 6px;
+}
+
+.hero-lead-paragraph {
+  font-family: var(--font-sans);
+  font-size: clamp(1.05rem, 1.45vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.7;
+  color: #1E1708;
+  max-width: 680px;
+  margin-bottom: 40px;
+}
+
+.hero-cta-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Contrast CTA on Yellow: Bold Ink Black with White Text */
+.primary-cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--color-ink-black);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 16px 40px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+}
+
+.primary-cta-button:hover {
+  background-color: #262626;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+.primary-cta-button:active {
+  transform: translateY(0);
+}
+
+.hero-tagline-whisper {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  font-style: italic;
+  color: rgba(18, 18, 18, 0.85);
+}
+
+/* ==================================================
+   C. BRAND STATEMENT
+   ================================================== */
+.brand-statement-section {
+  position: relative;
+  z-index: 10;
+  padding: 88px 0;
+  background: transparent;
+}
+
+.statement-card {
+  position: relative;
+  overflow: hidden;
+  max-width: 840px;
+  margin: 0 auto;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 28px;
+  padding: 56px 64px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+}
+
+/* Kolam Doodle Art Split Halves Attached to Card Borders */
+.card-kolam-corner {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: clamp(90px, 13vw, 145px);
+  width: auto;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.70;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.card-kolam-left {
+  left: 0;
+  transform: translateY(-50%);
+  transform-origin: left center;
+}
+
+.card-kolam-right {
+  right: 0;
+  transform: translateY(-50%);
+  transform-origin: right center;
+}
+
+.statement-card:hover .card-kolam-corner,
+.connect-card:hover .card-kolam-corner {
+  opacity: 0.95;
+}
+
+.statement-card:hover .card-kolam-left,
+.connect-card:hover .card-kolam-left {
+  transform: translateY(-50%) scale(1.05);
+}
+
+.statement-card:hover .card-kolam-right,
+.connect-card:hover .card-kolam-right {
+  transform: translateY(-50%) scale(1.05);
+}
+
+.ornament-divider {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.ornament-line {
+  width: 50px;
+  height: 3px;
+  background-color: var(--color-brand-yellow);
+  border-radius: 2px;
+}
+
+.statement-headline {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  font-weight: 900;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  color: var(--color-ink-black);
+  margin-bottom: 20px;
+}
+
+.statement-paragraph {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-sans);
+  font-size: clamp(1.05rem, 1.35vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.75;
+  color: #332B1A;
+}
+
+/* ==================================================
+   LOWER SHOWCASE ZONE (2ND PAGE DOWN TO FOOTER)
+   - Large Brown Kolam centered in the background
+   - Full-height botanical banana trees spanning borders
+   ================================================== */
+.lower-showcase-zone {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 40px 0 60px 0;
+}
+
+/* Large Brown Kolam Background Art */
+.showcase-kolam-bg-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(500px, 62vw, 920px);
+  height: clamp(500px, 62vw, 920px);
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.showcase-bg-kolam-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.38;
+  mix-blend-mode: multiply;
+  filter: contrast(1.22);
+  image-rendering: auto;
+}
+
+/* Grand Botanical Banana Trees spanning full vertical length across both cards */
+.showcase-border-trees {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.showcase-tree {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  /* Tall so it covers the border from 2nd page down to before the footer */
+  height: clamp(800px, 95%, 1400px);
+  width: auto;
+  pointer-events: none;
+  opacity: 0.52;
+  mix-blend-mode: multiply;
+  filter: contrast(1.2);
+  transition: opacity 0.4s ease;
+}
+
+.tree-left {
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.tree-right {
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.lower-showcase-zone:hover .showcase-tree {
+  opacity: 0.60;
+}
+
+.connect-card {
+  position: relative;
+  overflow: hidden;
+  max-width: 660px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 28px;
+  padding: 52px 64px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+  z-index: 3;
+}
+
+.connect-headline {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 900;
+  color: var(--color-ink-black);
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+.connect-paragraph {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #332B1A;
+  margin-bottom: 32px;
+}
+
+.connect-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+}
+
+.contact-team-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 36px;
+  background: var(--color-ink-black);
+  border: none;
+  border-radius: 9999px;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.contact-team-btn:hover {
+  background: #2D2D2D;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.contact-team-btn:active {
+  transform: translateY(0);
+}
+
+/* ==================================================
+   E. EXPANDED FOOTER WITH HERITAGE ARCHITECTURE SKYLINE
+   ================================================== */
+.site-footer {
+  margin-top: 40px;
+  position: relative;
+  z-index: 10;
+  border-top: 1.5px solid rgba(18, 18, 18, 0.12);
+  background-color: var(--color-brand-yellow);
+  padding: 64px 0 0 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Extended min-height to ensure plenty of room for both text and doodle skyline */
+  min-height: 480px;
+}
+
+.footer-content-wrap {
+  width: 100%;
+}
+
+.footer-inner {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  /* Healthy space between the brand text and the skyline line art below */
+  margin-bottom: 48px;
+}
+
+.footer-brand-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transition: transform 0.25s ease;
+}
+
+.footer-brand-wrap:hover {
+  transform: translateY(-2px);
+}
+
+.footer-logo-img {
+  height: 54px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+}
+
+.footer-summary {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  color: #1A140A;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.footer-copyright {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(26, 20, 10, 0.72);
+  margin-top: 2px;
+}
+
+/* Doodle Art Skyline resting clearly across the lower base of the extended footer */
+.footer-skyline-container {
+  position: relative;
+  width: 100%;
+  pointer-events: none;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  line-height: 0;
+  overflow: hidden;
+  margin-top: auto;
+}
+
+.footer-skyline-art {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: fill;
+  object-position: bottom center;
+  opacity: 0.95;
+  mix-blend-mode: multiply;
+  filter: contrast(1.22);
+  display: block;
+}
+
+/* ==================================================
+   RESPONSIVE ADJUSTMENTS
+   ================================================== */
+@media (max-width: 640px) {
+  .content-container {
+    padding: 0 16px;
+  }
+  .site-header {
+    display: none;
+  }
+  .hero-section {
+    padding: 36px 0 48px 0;
+  }
+  .hero-center-logo-img {
+    height: 68px;
+    filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.22));
+  }
+  .coming-soon-supertitle {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+  .grand-coming-soon-title {
+    font-size: 1.85rem;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+  .hero-subhead {
+    font-size: 1.1rem;
+  }
+  .primary-cta-button {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px;
+  }
+  .statement-card {
+    padding: 36px 20px;
+    border-radius: 20px;
+  }
+  .connect-card {
+    padding: 32px 20px;
+    border-radius: 20px;
+  }
+  .contact-team-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
